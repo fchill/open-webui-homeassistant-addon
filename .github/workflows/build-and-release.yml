@@ -16,22 +16,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write    # für git push + GitHub Release
+      packages: write    # für Docker-Push nach ghcr.io
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
-      - name: Install GitHub CLI
-        run: |
-          type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
-          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-          sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-          sudo apt update
-          sudo apt install gh -y
-
-      - name: Authenticate GitHub CLI
-        run: echo "${{ secrets.GH_PAT }}" | gh auth login --with-token
 
       - name: Get latest OpenWebUI release (or use test version)
         id: get_release
@@ -66,12 +57,12 @@ jobs:
 
       - name: Log in to GitHub Container Registry
         if: env.EXISTS == 'false'
-        run: echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build and push Docker image
         if: env.EXISTS == 'false'
         run: |
-          IMAGE_NAME="ghcr.io/mikastamm/open-webui-homeassistant-addon"
+          IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/open-webui-homeassistant-addon"
           # Create or use an existing Buildx builder instance
           docker buildx create --use --name multiarch-builder || docker buildx use multiarch-builder
           # Build and push for both x64 and ARM (arm64) architectures
@@ -79,7 +70,6 @@ jobs:
             -t $IMAGE_NAME:$LATEST_RELEASE \
             -t $IMAGE_NAME:latest \
             -f open-webui/Dockerfile . --push
-  
 
       - name: Commit updated files
         if: env.EXISTS == 'false'
