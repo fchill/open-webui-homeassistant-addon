@@ -6,7 +6,7 @@ This repository contains a Home Assistant addon that runs [Open WebUI](https://g
 ## Installation
 
 1. Go to your [Home Assistant's Addon Store](https://my.home-assistant.io/redirect/supervisor_store/)
-2. Click the three dots in the upper right and add the custom repository: `https://github.com/mikastamm/open-webui-homeassistant-addon` 
+2. Click the three dots in the upper right and add the custom repository: `https://github.com/fchill/open-webui-homeassistant-addon` 
 3. Install the **OpenWebUI** add-on from the add-on store.  
 4. Start the add-on.
 
