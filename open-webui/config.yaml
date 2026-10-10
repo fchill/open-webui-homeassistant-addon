@@ -1,6 +1,6 @@
 name: "Open WebUI"
 description: "Open WebUI is an extensible, feature-rich, and user-friendly self-hosted AI platform designed to operate entirely offline"
-url: https://github.com/mikastamm/open-webui-homeassistant-addon
+url: https://github.com/fchill/open-webui-homeassistant-addon
 version: "v0.11.4"
 slug: "openwebui"
 panel_icon: mdi:message
@@ -20,4 +20,4 @@ map:
   - share
 options: {}
 schema: {}
-image: ghcr.io/mikastamm/open-webui-homeassistant-addon
+image: ghcr.io/fchill/open-webui-homeassistant-addon
