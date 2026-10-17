@@ -7,7 +7,7 @@ FROM ghcr.io/open-webui/open-webui:slim
 
 # Labels for Home Assistant Supervisor
 LABEL \
-  io.hass.version="v0.12.2" \
+  io.hass.version="v0.12.3" \
   io.hass.type="addon" \
   io.hass.arch="aarch64|amd64"
 
